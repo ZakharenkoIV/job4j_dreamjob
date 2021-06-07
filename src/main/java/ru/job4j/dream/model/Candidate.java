@@ -1,8 +1,8 @@
-package ru.job4j.model;
+package ru.job4j.dream.model;
 
 public class Candidate {
     private String name;
-    private int Id;
+    private int id;
 
     public String getName() {
         return name;
@@ -13,10 +13,10 @@ public class Candidate {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 }
