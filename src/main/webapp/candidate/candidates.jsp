@@ -42,10 +42,15 @@
                     <c:forEach items="${candidates}" var="candidate">
                         <tr>
                             <td>
+                                <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px" height="100px" alt="">
+                                <c:out value="${candidate.name}"/>
                                 <a href='<c:url value="/post/edit.jsp?id=${candidate.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
-                                <c:out value="${candidate.name}"/>
+                                <a class="nav-link"  href='<c:url value="/photoUpload?name=${candidate.id}"/>'>Добавить
+                                </a>
+                                <a class="nav-link"  href='<c:url value="/photoDelete?name=${candidate.id}"/>'>Удалить
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
