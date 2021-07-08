@@ -8,21 +8,21 @@ public class PsqlMain {
 
         System.out.println("-----------");
         System.out.println("create post");
-        store.save(new Post(0, "Java Job 1"));
-        store.save(new Post(0, "Java Job 2"));
+        store.savePost(new Post(0, "Java Job 1"));
+        store.savePost(new Post(0, "Java Job 2"));
         for (Post post : store.findAllPosts()) {
             System.out.println(post.getId() + " " + post.getName());
         }
         System.out.println("-----------");
         System.out.println("update post");
-        store.save(new Post(2, "Java Job 2*"));
+        store.savePost(new Post(2, "Java Job 2*"));
         for (Post post : store.findAllPosts()) {
             System.out.println(post.getId() + " " + post.getName());
         }
 
         System.out.println("-----------");
         System.out.println("findById post");
-        Post p = store.findById(1);
+        Post p = store.findByPostId(1);
         if (p != null) {
             System.out.println(p.getId() + " " + p.getName());
         } else {
