@@ -1,14 +1,18 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,8 +20,8 @@ import java.util.Properties;
 
 public class PsqlStore implements Store {
 
-    private static Store lazyInst = null;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -43,11 +47,12 @@ public class PsqlStore implements Store {
         pool.setMaxOpenPreparedStatements(100);
     }
 
+    private static final class Lazy {
+        private static final Store INST = new PsqlStore();
+    }
+
     public static Store instOf() {
-        if (lazyInst == null) {
-            lazyInst = new PsqlStore();
-        }
-        return lazyInst;
+        return Lazy.INST;
     }
 
     @Override
@@ -61,8 +66,8 @@ public class PsqlStore implements Store {
                     posts.add(new Post(it.getInt("id"), it.getString("name")));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return posts;
     }
@@ -78,8 +83,8 @@ public class PsqlStore implements Store {
                     candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return candidates;
     }
@@ -115,8 +120,8 @@ public class PsqlStore implements Store {
                     post.setId(id.getInt(1));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return post;
     }
@@ -129,8 +134,8 @@ public class PsqlStore implements Store {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
     }
 
@@ -147,8 +152,8 @@ public class PsqlStore implements Store {
                     candidate.setId(id.getInt(1));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return candidate;
     }
@@ -161,8 +166,8 @@ public class PsqlStore implements Store {
             ps.setString(1, candidate.getName());
             ps.setInt(2, candidate.getId());
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
     }
 
@@ -184,8 +189,8 @@ public class PsqlStore implements Store {
                     post = new Post(rs.getInt("id"), rs.getString("name"));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return post;
     }
@@ -204,8 +209,8 @@ public class PsqlStore implements Store {
                     candidate = new Candidate(rs.getInt("id"), rs.getString("name"));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
         }
         return candidate;
     }
