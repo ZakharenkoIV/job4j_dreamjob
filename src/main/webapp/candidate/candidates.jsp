@@ -24,8 +24,27 @@
     <title>Работа мечты</title>
 </head>
 <body>
-<div class="container pt-3">
-
+<div class="container">
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/posts.do">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/candidates.do">Кандидаты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${sessionScope.user.name}"/> |
+                    Выйти</a>
+            </li>
+        </ul>
+    </div>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
@@ -42,14 +61,15 @@
                     <c:forEach items="${candidates}" var="candidate">
                         <tr>
                             <td>
-                                <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px" height="100px" alt="">
+                                <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px" height="100px"
+                                     alt="">
                                 <c:out value="${candidate.name}"/>
                                 <a href='<c:url value="/post/edit.jsp?id=${candidate.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
-                                <a class="nav-link"  href='<c:url value="/photoUpload?name=${candidate.id}"/>'>Добавить
+                                <a class="nav-link" href='<c:url value="/photoUpload?name=${candidate.id}"/>'>Добавить
                                 </a>
-                                <a class="nav-link"  href='<c:url value="/photoDelete?name=${candidate.id}"/>'>Удалить
+                                <a class="nav-link" href='<c:url value="/photoDelete?name=${candidate.id}"/>'>Удалить
                                 </a>
                             </td>
                         </tr>
