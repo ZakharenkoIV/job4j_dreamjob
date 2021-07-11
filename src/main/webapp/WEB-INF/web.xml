@@ -5,6 +5,16 @@
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
 
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.dream.filter.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.IndexServlet</servlet-class>
@@ -31,13 +41,29 @@
     </servlet>
     <servlet>
         <servlet-name>PhotoDeleteServlet</servlet-name>
-        <servlet-class>ru.job4j.dream.servlet.PhotoDeleteServlet</servlet-class>
+        <servlet-class>ru.job4j.dream.servlet.CandidateEditServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AuthServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.AuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateEditServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.CandidateEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostEditServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.PostEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ExitServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.ExitServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ExitServlet</servlet-name>
+        <url-pattern>/exit</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.do</url-pattern>
@@ -69,5 +95,13 @@
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
         <url-pattern>/auth.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateEditServlet</servlet-name>
+        <url-pattern>/candidate/edit.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostEditServlet</servlet-name>
+        <url-pattern>/post/edit.do</url-pattern>
     </servlet-mapping>
 </web-app>
