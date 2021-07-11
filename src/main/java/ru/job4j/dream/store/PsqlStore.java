@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -90,6 +91,27 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public Collection<User> findAllUsers() {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT id, name, email FROM \"user\"")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    User user = new User();
+                    user.setName(it.getString("name"));
+                    user.setEmail(it.getString("email"));
+                    user.setId(it.getInt("id"));
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
+        }
+        return users;
+    }
+
+    @Override
     public void savePost(Post post) {
         if (post.getId() == 0) {
             createPost(post);
@@ -104,6 +126,15 @@ public class PsqlStore implements Store {
             createCandidate(candidate);
         } else {
             updateCandidate(candidate);
+        }
+    }
+
+    @Override
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            createUser(user);
+        } else {
+            updateUser(user);
         }
     }
 
@@ -171,6 +202,40 @@ public class PsqlStore implements Store {
         }
     }
 
+    private User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO \"user\"(email, password, name) VALUES ((?), (?), (?))",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
+        }
+        return user;
+    }
+
+    private void updateUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE \"user\" SET name = (?) WHERE id = (?)")
+        ) {
+            ps.setString(1, user.getName());
+            ps.setInt(2, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
+        }
+    }
+
     /**
      * @param id уникальный ID поста
      * @return объект Post или null, если нет совпадения по ID.
@@ -213,5 +278,50 @@ public class PsqlStore implements Store {
             LOGGER.error("Database access error.", e);
         }
         return candidate;
+    }
+
+    @Override
+    public User findByUserId(int id) {
+        User user = new User();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT id, email, name FROM \"user\" WHERE id = (?)")
+        ) {
+            ps.setInt(1, id);
+            ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setId(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
+        }
+        return user;
+    }
+
+    @Override
+    public User findByUserEmail(String email) {
+        User user = new User();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT id, email, password, name FROM \"user\" WHERE email = (?)")
+        ) {
+            ps.setString(1, email);
+            ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setId(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Database access error.", e);
+        }
+        return user;
     }
 }
