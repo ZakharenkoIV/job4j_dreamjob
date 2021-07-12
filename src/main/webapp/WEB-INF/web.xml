@@ -59,7 +59,15 @@
         <servlet-name>ExitServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.ExitServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.RegServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>RegServlet</servlet-name>
+        <url-pattern>/reg.do</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ExitServlet</servlet-name>
         <url-pattern>/exit</url-pattern>

@@ -32,31 +32,30 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/candidates.do">Кандидаты</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
-            </li>
         </ul>
     </div>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                Регистрация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/auth.do" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
-                        <label>Почта</label>
-                            <input type="text" class="form-control" name="email">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" name="name">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                            <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password1">
+                    </div>
+                    <div class="form-group">
+                        <label>Повторите пароль</label>
+                        <input type="password" class="form-control" name="password2">
+                    </div>
+                    <div class="form-group">
+                        <label>Почта</label>
+                        <input type="text" class="form-control" name="email">
                     </div>
                     <button type="submit" class="btn btn-primary">Войти</button>
                     <c:if test="${not empty error}">
