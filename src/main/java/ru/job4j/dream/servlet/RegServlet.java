@@ -26,7 +26,7 @@ public class RegServlet extends HttpServlet {
             return;
         }
         String email = req.getParameter("email");
-        if (PsqlStore.instOf().findByUserEmail(email).getEmail() != null) {
+        if (PsqlStore.instOf().findByUserEmail(email) != null) {
             req.setAttribute("error", "Введенный email уже используется в системе");
             req.getRequestDispatcher("reg.jsp").forward(req, resp);
             return;
