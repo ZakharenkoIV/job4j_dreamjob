@@ -1,0 +1,10 @@
+label {
+    display: block;
+}
+
+.input-requirements li.invalid {
+    color: #e74c3c;
+}
+.input-requirements li.valid {
+    color: #2ecc71;
+}

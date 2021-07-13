@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
@@ -19,6 +19,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/formhack.css">
 
     <title>Работа мечты</title>
 </head>
@@ -40,23 +42,51 @@
                 Регистрация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/reg.do" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" id="registration" method="post">
+
                     <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <label for="name">
+                            <span>Имя</span>
+                            <input type="text" id="name" class="form-control" name="name" required>
+                            <ul class="input-requirements">
+                                <li>Длинна не менее 4 букв</li>
+                                <li>Используйте цифры и буквы латинского алфавита</li>
+                            </ul>
+                        </label>
                     </div>
+
                     <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" class="form-control" name="password1">
+                        <label for="password">
+                            <span>Пароль</span>
+                            <input type="password" id="password" class="form-control" name="password" required>
+                            <ul class="input-requirements">
+                                <li>Длинна не менее 4 и не более 12 символов</li>
+                                <li>Используйте цифры</li>
+                                <li>Используйте латинские буквы нижнего регистра</li>
+                                <li>Используйте латинские буквы верхнего регистра</li>
+                                <li>Используйте спец.символы</li>
+                            </ul>
+                        </label>
                     </div>
+
                     <div class="form-group">
-                        <label>Повторите пароль</label>
-                        <input type="password" class="form-control" name="password2">
+                        <label for="password_repeat">
+                            <span>Повторите пароль</span>
+                            <input type="password" id="password_repeat" class="form-control" name="password_repeat"
+                                   required>
+                        </label>
                     </div>
+
                     <div class="form-group">
-                        <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <label for="email">
+                            <span>Почта</span>
+                            <input type="text" id="email" class="form-control" name="email" required>
+                            <ul class="input-requirements">
+                                <li>Введите адрес электронной почты</li>
+                            </ul>
+                        </label>
                     </div>
+
                     <button type="submit" class="btn btn-primary">Войти</button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
@@ -68,5 +98,6 @@
         </div>
     </div>
 </div>
+<script src="resources/js/validate.js"></script>
 </body>
 </html>
