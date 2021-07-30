@@ -22,16 +22,37 @@
     <title>Bootstrap Example</title>
     <script>
         function validate() {
+            let result = true;
             const inputFieldId = ['#inputFirstName', '#inputLastName', '#inputDescription'];
             let massage = "Заполните поля: ";
             inputFieldId.forEach(function (value) {
                 const field = $(value);
                 if (field.val() === '') {
                     massage += "\n" + (field.attr('title'));
+                    result = false;
                 }
             });
-            alert(massage);
-            return false;
+            if (massage !== "Заполните поля: ") {
+                alert(massage);
+            }
+            return result;
+        }
+
+        function addRow() {
+            if (validate()) {
+                $('#table tr:last').after(
+                    '<tr>' +
+                    '<th scope="row"></th>' +
+                    '<td>' + $('#inputFirstName').val() + '</td>' +
+                    '<td>' + $('#inputLastName').val() + '</td>' +
+                    '<td>' + $('#inputSex').val() + '</td>' +
+                    '<td>' + $('#inputDescription').val() + '</td>' +
+                    '</tr>'
+                );
+                $("#table tbody tr th").each(function (rowCount) {
+                    $(this).text(++rowCount);
+                });
+            }
         }
     </script>
 </head>
@@ -61,17 +82,17 @@
                         <label for="inputDescription" class="col-sm-2 col-form-label">Описание</label>
                         <textarea class="form-control" id="inputDescription" rows="3" title="Описание"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
+                    <button type="reset" class="btn btn-primary" onclick="addRow()">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 <div class="container-fluid table-responsive">
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">№</th>
+            <th scope="col" id="row">№</th>
             <th scope="col">Имя</th>
             <th scope="col">Фамилия</th>
             <th scope="col">Пол</th>
@@ -79,10 +100,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <%--        <th scope="row">1</th>--%>
-            <%--        <td> </td>--%>
-        </tr>
+        <tr></tr>
         </tbody>
     </table>
 </div>
