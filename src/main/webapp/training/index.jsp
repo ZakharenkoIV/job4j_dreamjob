@@ -20,6 +20,20 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <title>Bootstrap Example</title>
+    <script>
+        function validate() {
+            const inputFieldId = ['#inputFirstName', '#inputLastName', '#inputDescription'];
+            let massage = "Заполните поля: ";
+            inputFieldId.forEach(function (value) {
+                const field = $(value);
+                if (field.val() === '') {
+                    massage += "\n" + (field.attr('title'));
+                }
+            });
+            alert(massage);
+            return false;
+        }
+    </script>
 </head>
 
 <body>
@@ -30,11 +44,11 @@
                 <form>
                     <div class="form-group">
                         <label for="inputFirstName" class="col-sm-2 col-form-label">Имя</label>
-                        <input type="text" class="form-control" id="inputFirstName">
+                        <input type="text" class="form-control" id="inputFirstName" title="Имя">
                     </div>
                     <div class="form-group">
                         <label for="inputLastName" class="col-sm-2 col-form-label">Фамилия</label>
-                        <input type="text" class="form-control" id="inputLastName">
+                        <input type="text" class="form-control" id="inputLastName" title="Фамилия">
                     </div>
                     <div class="form-group">
                         <label for="inputSex" class="col-sm-2 col-form-label">Пол</label>
@@ -45,9 +59,9 @@
                     </div>
                     <div class="form-group">
                         <label for="inputDescription" class="col-sm-2 col-form-label">Описание</label>
-                        <textarea class="form-control" id="inputDescription" rows="3"></textarea>
+                        <textarea class="form-control" id="inputDescription" rows="3" title="Описание"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
         </div>
