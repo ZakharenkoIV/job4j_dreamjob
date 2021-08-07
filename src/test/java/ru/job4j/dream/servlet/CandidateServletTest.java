@@ -43,6 +43,7 @@ public class CandidateServletTest {
 
         PowerMockito.when(req.getParameter("id")).thenReturn("0");
         PowerMockito.when(req.getParameter("name")).thenReturn("n");
+        PowerMockito.when(req.getParameter("city")).thenReturn("0");
 
         new CandidateServlet().doPost(req, resp);
 

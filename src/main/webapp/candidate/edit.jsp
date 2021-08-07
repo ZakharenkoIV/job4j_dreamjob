@@ -21,13 +21,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <title>Работа мечты</title>
 </head>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/dreamjob/cities',
+            dataType: 'json'
+        }).done(function (cities) {
+            const selectCities = document.getElementById("selectCities");
+            for (const city of cities) {
+                selectCities.options[selectCities.options.length] = new Option(city.name, city.id);
+                console.log(city);
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+    jQuery(function () {
+        jQuery(this).find('[value="0"]').attr('disabled', 'disabled');
+    });
+</script>
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate can = new Candidate(0, "");
+    Candidate can = new Candidate(0, "", 0);
     if (id != null) {
         can = PsqlStore.instOf().findByCandidateId(Integer.parseInt(id));
     }
@@ -48,7 +69,8 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/exit"> <c:out value="${sessionScope.user.name}"/> |
+                <a class="nav-link" href="<%=request.getContextPath()%>/exit"> <c:out
+                        value="${sessionScope.user.name}"/> |
                     Выйти</a>
             </li>
         </ul>
@@ -65,10 +87,12 @@
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/candidate/candidates.do?id=<%=can.getId()%>" method="post">
                     <div class="form-group">
-                        <label>Имя</label>
-                        <label>
-                            <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
-                        </label>
+                        <label for="inputName">Имя</label>
+                        <input type="text" id="inputName" class="form-control" name="name" value="<%=can.getName()%>">
+                        <label for="selectCities">Город</label>
+                        <p><select required id="selectCities" size="1" name="city">
+                        <option value="0">Выберите свой город</option>
+                        </select></p>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

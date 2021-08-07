@@ -1,10 +1,12 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -72,6 +74,11 @@ public class MemStore implements Store {
                 return user;
             }
         }
+        return null;
+    }
+
+    @Override
+    public List<City> getAllCities() {
         return null;
     }
 

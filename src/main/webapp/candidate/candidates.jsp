@@ -64,7 +64,7 @@
                                 <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px" height="100px"
                                      alt="">
                                 <c:out value="${candidate.name}"/>
-                                <a href='<c:url value="/post/edit.jsp?id=${candidate.id}"/>'>
+                                <a href='<c:url value="/candidate/edit.do?id=${candidate.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <a class="nav-link" href='<c:url value="/photoUpload?name=${candidate.id}"/>'>Добавить

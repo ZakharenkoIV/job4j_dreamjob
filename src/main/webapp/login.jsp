@@ -21,6 +21,23 @@
             crossorigin="anonymous"></script>
 
     <title>Работа мечты</title>
+    <script>
+        function validate() {
+            const inputFieldId = ['#inputEmail', '#inputPassword'];
+            let massage = "Заполните поля: ";
+            inputFieldId.forEach(function (value) {
+                const field = $(value);
+                if (field.val() === '') {
+                    massage += "\n" + (field.attr('title'));
+                }
+            });
+            let isEmptyMassage = massage === "Заполните поля: ";
+            if (!isEmptyMassage) {
+                alert(massage);
+            }
+            return isEmptyMassage;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -52,13 +69,13 @@
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
-                            <input type="text" class="form-control" name="email">
+                            <input type="text" id="inputEmail" class="form-control" name="email" title="Почта">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" id="inputPassword" class="form-control" name="password" title="Пароль">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Войти</button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
                                 ${error}
